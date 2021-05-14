@@ -1,27 +1,27 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <div style="display:inline-block;padding-right: 20px;">
+      <!--<div style="display:inline-block;padding-right: 20px;">
         <span style="padding: 0 8px 0 0;">号码</span>
         <el-input style="display: inline-block;width: 196px;" v-model="numbers" placeholder="请输入号码"></el-input>
-      </div>
-      <div style="display:inline-block;padding-right: 20px;">
+      </div>-->
+      <!--<div style="display:inline-block;padding-right: 20px;">
         <span style="padding: 0 8px 0 0;">状态</span>
         <el-select v-model="types" placeholder="请选择" clearable>
           <el-option key="sx1" value="1" label="启用"></el-option>
           <el-option key="sx2" value="2" label="已移除"></el-option>
         </el-select>
-      </div>
+      </div>-->
 
-      <el-button class="filter-item" style="margin: 0 7px 0;" type="primary" icon="el-icon-search" @click="onSubmit">
+      <!--<el-button class="filter-item" style="margin: 0 7px 0;" type="primary" icon="el-icon-search" @click="onSubmit">
         查询
-      </el-button>
+      </el-button>-->
       <el-button class="filter-item" style="margin: 0 7px 0;" type="warning" icon="el-icon-plus" @click="addWhiteList = true">
-        添加白名单
+        添加日报
       </el-button>
-      <el-button :loading="downloadLoading" style="margin:0 15px 0 7px;" type="success" icon="el-icon-document" @click="handleDownload">
+      <!--<el-button :loading="downloadLoading" style="margin:0 15px 0 7px;" type="success" icon="el-icon-document" @click="handleDownload">
         导出表格
-      </el-button>
+      </el-button>-->
     </div>
 
 
@@ -37,28 +37,15 @@
       @selection-change="handleSelectionChange"
     >
 
-      <el-table-column label="号码" min-width="110" prop="WHITE_NUMBER" show-overflow-tooltip>
+      <el-table-column label="地市" min-width="110" prop="AREA_DESC" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column label="添加人"  min-width="100" prop="ADD_USER" show-overflow-tooltip>
+      <el-table-column label="鹰眼检出诈骗号码/个" prop="CHECK_FRAUD_NUMBER" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column label="添加时间"  min-width="160" prop="ADD_TIME" show-overflow-tooltip>
+      <el-table-column label="发展渠道信息" prop="DEVE_CHANNEL_FRAUD" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column label="状态" prop="STATUS" show-overflow-tooltip>
-        <template slot-scope="{row}">
-          <template v-if="row.STATUS==='1'">启用</template>
-          <template v-else>停用</template>
-        </template>
+      <el-table-column label="鹰眼检出骚扰号码/个" prop="CHECK_HARASS_NUMBER" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column label="添加原因" prop="ADD_RESON" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column label="修改人" prop="EDIT_USER" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column label="修改时间"  min-width="160" prop="EDIT_TIME" show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column label="设置" align="center" show-overflow-tooltip>
-        <template slot-scope="{row}">
-          <el-button type="danger" :key="row.WHITE_NUMBER" size="mini" plain @click="deleteRow(row)">删除</el-button>
-        </template>
+      <el-table-column label="发展渠道信息" prop="DEVE_CHANNEL_HARASS" show-overflow-tooltip>
       </el-table-column>
     </el-table>
     <div class="block" style="margin-top: 15px;">
@@ -73,24 +60,38 @@
       </el-pagination>
     </div>
 
-    <el-dialog :title="'添加白名单'" :visible.sync="addWhiteList" >
-      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="100px" size="mini" style=" margin-right:50px;margin-left:50px;">
+    <el-dialog :title="'添加日报'" :visible.sync="addWhiteList" >
+      <el-form ref="dataForm" :model="temp" label-position="left" label-width="180px" size="mini" style=" margin-right:50px;margin-left:50px;">
 
-        <el-form-item label="号码列表" prop="numbers">
+        <el-form-item label="鹰眼检出诈骗号码/个" prop="numbers">
           <el-input
-            type="textarea"
-            placeholder="多个号码间用英文逗号隔开"
-            v-model="temp.numbers"
+            type="text"
+            placeholder=""
+            v-model="temp.CHECK_FRAUD_NUMBER"
           >
           </el-input>
         </el-form-item>
-        <el-form-item label="备注">
+        <el-form-item label="发展渠道信息">
           <el-input
             type="textarea"
-            placeholder="请输入内容"
-            maxlength="128"
-            show-word-limit
-            v-model="temp.text"
+            placeholder="注明发展渠道名称、渠道类型、同批次关联号码、号码关停情况、渠道处理情况等相关信息"
+            v-model="temp.DEVE_CHANNEL_FRAUD"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="鹰眼检出骚扰号码/个" prop="numbers">
+          <el-input
+            type="text"
+            placeholder=""
+            v-model="temp.CHECK_HARASS_NUMBER"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="发展渠道信息">
+          <el-input
+            type="textarea"
+            placeholder="注明发展渠道名称、渠道类型、同批次关联号码、号码关停情况、渠道处理情况等相关信息政企短号"
+            v-model="temp.DEVE_CHANNEL_HARASS"
           >
           </el-input>
         </el-form-item>
@@ -108,36 +109,19 @@
 </template>
 
 <script>
-  import { fetchdowntimeWhiteList,fetchdowntimeWhiteAdd,deleteWhiteData,fetchdowntimeWhiteListWhite } from '@/api/fraud-management';
+  import { specialTreatList,specialTreatAdd } from '@/api/fraud-management';
     export default {
-        name: "downtime-white-list",
+        name: "special-treatment",
       data() {
-        var telPass = (rule, value, callback) => {
-          const str1 = value.replace(/\s/ig, "")
-          if (str1 === '') {
-            callback(new Error('请输入手机号'));
-          } else {
-            if(str1.indexOf("，") != -1){
-              callback(new Error('请输入英文逗号'));
-              return false;
-            }
-            let numbers = str1.split(',')
-            for(let i = 0;i<numbers.length;i++){
-              if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(numbers[i]))){
-                callback(new Error('输入格式或者手机号不正确'));
-                return false;
-              }
-            }
-            callback();
-          }
-        };
         return {
           numbers: '',
           types:'',
           list:[],
           temp:{
-            numbers:'',
-            text:'',
+            CHECK_FRAUD_NUMBER:'',
+            DEVE_CHANNEL_FRAUD:'',
+            CHECK_HARASS_NUMBER:'',
+            DEVE_CHANNEL_HARASS:''
             /*list:[]*/
           },
           downloadLoading: false,
@@ -147,10 +131,11 @@
           pageSize:10,//每页显示条数
           pageCurrent:1,//当前页
           pageTotal:0,
-          rules:{
+          listLoading:false,
+          loginId:''
+          /*rules:{
             numbers:[{ validator: telPass, trigger: 'blur' }]
-          },
-          listLoading: false
+          }*/
         }
       },
       created(){
@@ -163,52 +148,31 @@
             this.temp[i] = "";
           }
         },
-        deleteRow(row) {
-          let param = {}
-          param.WHITE_NUMBER = row.WHITE_NUMBER;
-          deleteWhiteData(param).then(response => {
-            let key = response.resultState;
-            if(key==='1'){
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              });
-              this.fetchList();
-            }else {
-              this.$message({
-                message: '删除失败',
-                type: 'warning'
-              });
-            }
-          }).catch(err => {
-            console.log(err)
-          })
-        },
         onSubmit() {
           this.fetchList();
         },
         fetchList(){
           this.listLoading = true;
           let param = {};
+          this.loginId = sessionStorage.getItem('loginId');
           param.start = (this.pageCurrent-1)*this.pageSize;
           param.length = this.pageSize;
-          param.numbers=this.numbers;
-          param.types=this.types;
-          fetchdowntimeWhiteList(param).then(response => {
+          param.loginId = this.loginId;
+          specialTreatList(param).then(response => {
+            this.listLoading = false;
             this.list = response.data
             this.pageTotal = response.total;
           }).catch(err => {
+            this.listLoading = false;
             console.log(err)
           })
 
 
-          fetchdowntimeWhiteListWhite(param).then(response => {
-            this.listLoading = false;
+          /*fetchdowntimeWhiteListWhite(param).then(response => {
             this.whiteList = response;
           }).catch(err => {
-            this.listLoading = false;
             console.log(err)
-          })
+          })*/
         },
         addWhite(formName){
           this.$refs[formName].validate((valid) => {
@@ -216,7 +180,7 @@
               let param = this.temp;
               param.loginId = sessionStorage.getItem('loginId')
               /*param.list = param.numbers.split(',');*/
-              fetchdowntimeWhiteAdd(param).then(response => {
+              specialTreatAdd(param).then(response => {
                 const key = response.resultState;
                 if(key==='1'){
                   this.$message({
@@ -224,8 +188,10 @@
                     type: 'success'
                   });
                   this.temp = {
-                    numbers:'',
-                    text:''
+                    CHECK_FRAUD_NUMBER:'',
+                    DEVE_CHANNEL_FRAUD:'',
+                    CHECK_HARASS_NUMBER:'',
+                    DEVE_CHANNEL_HARASS:''
                   };
                   this.fetchList();
                   this.addWhiteList = false;

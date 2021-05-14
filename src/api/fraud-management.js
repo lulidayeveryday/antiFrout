@@ -143,9 +143,56 @@ export function involvedReportExcel(param) {
   })
 }
 
+export function batchShutdownExcel(param) {
+  return request({
+    url: baseUrl + '/batchShutdown/importExcel',
+    method: 'post',
+    params: param,
+    data:param
+  })
+}
+
+
+
 export function fraudNumDeteExcel(param) {
   return request({
     url: baseUrl + '/fraudNumDete/importExcel',
+    method: 'post',
+    params: param,
+    data:param
+  })
+}
+
+export function specialTreatList(param) {
+  return request({
+    url: baseUrl + '/specialTreat/getTableData',
+    method: 'post',
+    params: param,
+    data:param
+  })
+}
+
+export function specialTreatAdd(param) {
+  return request({
+    url: baseUrl + '/specialTreat/insertData',
+    method: 'post',
+    params: param,
+    data:param
+  })
+}
+
+export function specialFruldTreatList(param) {
+  return request({
+    url: baseUrl + '/specialTreat/getFruldHarassData',
+    method: 'post',
+    params: param,
+    data:param
+  })
+}
+
+export function specialFruldTreatAdd(param) {
+  return request({
+    url: baseUrl + '/specialTreat/insertFruldHarassData',
     method: 'post',
     params: param,
     data:param

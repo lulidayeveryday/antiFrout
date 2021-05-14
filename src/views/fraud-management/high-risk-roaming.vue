@@ -130,6 +130,7 @@
         fetchList(){
           this.loading = true;
           let param = {};
+          param.loginId = sessionStorage.getItem('loginId')
           param.start = (this.pageCurrent-1)*this.pageSize;
           param.length = this.pageSize;
           param.time = this.time;

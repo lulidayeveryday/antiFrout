@@ -112,6 +112,7 @@
         },
         exportDetail(){
           let param = {};
+          param.loginId = sessionStorage.getItem('loginId')
           let time = this.time;
           if(time!=''){
             let startTime = moment(time[0]).format('YYYY-MM-DD');
@@ -123,7 +124,7 @@
             param.endTime='';
           }
           let ctxPath = exportTableBaseUrl;
-          window.open(ctxPath + "/warnSuddenReport/downloadTableDataDetail?startTime=" + param.startTime+"&endTime="+param.endTime,'_blank');
+          window.open(ctxPath + "/warnSuddenReport/downloadTableDataDetail?startTime=" + param.startTime+"&endTime="+param.endTime+"&loginId="+param.loginId,'_blank');
           /*warnSuddenReportDownDetail(param).then(response => {
           }).catch(err => {
             console.log(err)
@@ -132,6 +133,7 @@
         fetchList(){
           this.loading = true;
           let param = {};
+          param.loginId = sessionStorage.getItem('loginId')
           param.start = (this.pageCurrent-1)*this.pageSize;
           param.length = this.pageSize;
           let time = this.time;
